@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TV Shortcut Maker</string>
-    <string name="app_subtitle">Запускайте на телевизоре что угодно</string>
 
     <!-- Фильтры -->
     <string name="filter_hidden">Скрытые на ТВ</string>
@@ -17,7 +16,6 @@
     <string name="action_app_info">О приложении</string>
     <string name="action_uninstall">Удалить</string>
     <string name="action_close">Закрыть</string>
-    <string name="action_retry">Повторить</string>
 
     <!-- Состояния -->
     <string name="state_loading">Сканирую установленные приложения…</string>
@@ -45,13 +43,11 @@
     <string name="msg_shortcut_installed">«%1$s» добавлено на главный экран</string>
     <string name="msg_shortcut_install_failed">Установка не удалась: %1$s</string>
     <string name="msg_shortcut_permission">Разрешите приложению устанавливать пакеты и повторите</string>
-    <string name="msg_shortcut_template_missing">В этой сборке нет шаблона ярлыка — переустановите приложение</string>
     <string name="msg_shortcut_failed">Не удалось создать ярлык: %1$s</string>
 
     <!-- О программе -->
     <string name="about_developer">Разработчик</string>
     <string name="about_developer_name">В. Д. Кривицкий</string>
-    <string name="about_version">Версия %1$s</string>
 
     <!-- Поддержка проекта -->
     <string name="donate_action">Поддержать</string>

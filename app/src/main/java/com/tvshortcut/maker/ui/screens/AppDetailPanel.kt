@@ -48,7 +48,8 @@ import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -143,18 +144,20 @@ private fun PanelContent(
         runCatching { firstAction.requestFocus() }
     }
 
-    // Banner rendering happens off the main thread inside the ViewModel; the
-    // key list makes it re-run when either the app or the style changes.
-    val preview by produceState<Bitmap?>(initialValue = null, app.packageName) {
-        // Assigned from a plain local rather than straight from runCatching:
-        // lint cannot see through the lambda on the right-hand side and reports
-        // ProduceStateDoesNotAssignValue, which fails the build.
-        val rendered = try {
+    // Rendering happens off the main thread inside the ViewModel; the key makes
+    // it re-run whenever a different app is selected.
+    //
+    // Deliberately remember + LaunchedEffect rather than produceState: lint's
+    // ProduceStateDoesNotAssignValue check cannot follow an assignment whose
+    // value comes from a suspending call wrapped in error handling, and it
+    // fails the build. This spelling is equivalent and unambiguous.
+    var preview by remember(app.packageName) { mutableStateOf<Bitmap?>(null) }
+    LaunchedEffect(app.packageName) {
+        preview = try {
             renderBanner(app)
         } catch (e: Exception) {
             null
         }
-        value = rendered
     }
 
     // A side panel only makes sense when there is room beside the grid; on a
@@ -228,6 +231,23 @@ private fun PanelContent(
             style = MaterialTheme.typography.bodyMedium,
             color = TvColors.TextSecondary
         )
+
+        // A generated wrapper says what it points at. Without this the user sees
+        // a hashed package name with no way to tell which app it opens — and no
+        // way to know the target is gone, which is the whole reason to delete it.
+        if (app.isGeneratedShortcut) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = if (app.shortcutTargetMissing || app.shortcutTarget == null) {
+                    stringResource(R.string.detail_shortcut_orphan)
+                } else {
+                    stringResource(R.string.detail_shortcut_for, app.shortcutTarget)
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (app.shortcutTargetMissing) TvColors.Danger
+                else TvColors.TextSecondary
+            )
+        }
 
         Spacer(Modifier.height(28.dp))
 

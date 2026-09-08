@@ -39,7 +39,8 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -78,10 +79,12 @@ fun DonatePanel(
     val compact = LocalConfiguration.current.screenWidthDp < 720
     val qrSize = if (compact) 180.dp else 260.dp
 
-    // Rendering happens off the composition; produceState keeps it out of the
-    // frame that opens the dialog.
-    val qr by produceState<Bitmap?>(initialValue = null, url) {
-        value = QrCodeFactory.render(url, sizePx = 640)
+    // Rendering is kept out of the frame that opens the dialog. Same spelling as
+    // in AppDetailPanel — remember + LaunchedEffect instead of produceState — so
+    // both places behave identically and neither trips lint.
+    var qr by remember(url) { mutableStateOf<Bitmap?>(null) }
+    LaunchedEffect(url) {
+        qr = QrCodeFactory.render(url, sizePx = 640)
     }
 
     val closeFocus = remember { FocusRequester() }
