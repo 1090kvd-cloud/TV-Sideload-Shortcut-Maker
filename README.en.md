@@ -12,6 +12,8 @@
 [![Compose for TV](https://img.shields.io/badge/Jetpack%20Compose-TV%201.0.0-4285F4?logo=jetpackcompose&logoColor=white)](https://developer.android.com/training/tv/playback/compose)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 
+### [⬇️ Download APK](https://github.com/1090kvd-cloud/TV-Sideload-Shortcut-Maker/releases/latest)
+
 **English** · [Русский](README.md)
 
 </div>
@@ -161,6 +163,15 @@ Pushing a tag additionally publishes a GitHub Release with the APK attached:
 ```bash
 git tag v1.0.0 && git push origin v1.0.0
 ```
+
+## 📦 Prebuilt APK
+
+A signed build is available in [releases](https://github.com/1090kvd-cloud/TV-Sideload-Shortcut-Maker/releases/latest) — no need to
+build it yourself.
+
+Every release is signed with the same key, so updates install over the previous
+version. A debug build installed earlier must be removed once: the signatures
+differ and Android refuses to update across them.
 
 ## 📥 Install on a TV
 

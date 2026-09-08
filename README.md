@@ -12,6 +12,8 @@
 [![Compose for TV](https://img.shields.io/badge/Jetpack%20Compose-TV%201.0.0-4285F4?logo=jetpackcompose&logoColor=white)](https://developer.android.com/training/tv/playback/compose)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 
+### [⬇️ Скачать APK](https://github.com/1090kvd-cloud/TV-Sideload-Shortcut-Maker/releases/latest)
+
 **Русский** · [English](README.en.md)
 
 </div>
@@ -168,6 +170,15 @@ git tag v1.0.0 && git push origin v1.0.0
 файлы через **uploading an existing file**, затем откройте вкладку **Actions** —
 готовый APK появится в разделе **Artifacts**. Следите, чтобы загрузилась скрытая
 папка `.github`, иначе автосборка не запустится.
+
+## 📦 Готовый APK
+
+Подписанная сборка лежит в [релизах](https://github.com/1090kvd-cloud/TV-Sideload-Shortcut-Maker/releases/latest) — собирать проект
+самому не нужно.
+
+Все релизы подписаны одним ключом, поэтому обновления ставятся поверх. Если
+раньше стояла отладочная сборка, её придётся один раз удалить: подписи разные,
+и система откажется обновлять.
 
 ## 📥 Установка на телевизор
 

@@ -21,8 +21,34 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    /**
+     * Release signing comes from the environment, never from a file in the
+     * repository: whoever holds this key can publish an "update" to every
+     * existing install. It lives in GitHub secrets and is decoded on the runner.
+     * Without those variables the build falls back to the debug key, so cloning
+     * and building the project still works for anyone.
+     */
+    val releaseStorePath: String? = System.getenv("KEYSTORE_PATH")
+    val hasReleaseSigning = releaseStorePath != null && file(releaseStorePath).exists()
+
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(releaseStorePath!!)
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+                enableV1Signing = true
+                enableV2Signing = true
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
