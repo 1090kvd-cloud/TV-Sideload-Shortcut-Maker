@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TV Shortcut Maker</string>
+    <string name="app_subtitle">Запускайте на телевизоре что угодно</string>
+
+    <!-- Фильтры -->
+    <string name="filter_hidden">Скрытые на ТВ</string>
+    <string name="filter_all">Все приложения</string>
+    <string name="filter_tv">ТВ-приложения</string>
+    <string name="filter_favorites">Избранное</string>
+
+    <!-- Действия -->
+    <string name="action_launch">Запустить</string>
+    <string name="action_pin">Добавить на главный экран</string>
+    <string name="action_favorite_add">В избранное</string>
+    <string name="action_favorite_remove">Убрать из избранного</string>
+    <string name="action_app_info">О приложении</string>
+    <string name="action_uninstall">Удалить</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_retry">Повторить</string>
+
+    <!-- Состояния -->
+    <string name="state_loading">Сканирую установленные приложения…</string>
+    <string name="state_empty">Здесь пока пусто</string>
+    <string name="state_empty_hint">Выберите другой фильтр или установите приложение сайдлоудом.</string>
+
+    <!-- Панель сведений -->
+    <string name="detail_preview_title">Превью ярлыка</string>
+    <string name="detail_banner_preview">Сгенерированный баннер для %1$s</string>
+    <string name="detail_type_tv">ТВ-приложение</string>
+    <string name="detail_type_mobile">Мобильное приложение</string>
+    <string name="detail_system">Системное</string>
+    <string name="detail_separator">  ·  </string>
+
+    <!-- Сообщения -->
+    <string name="msg_pin_ok">Ярлык «%1$s» отправлен на главный экран</string>
+    <string name="msg_pin_unsupported">Лаунчер не поддерживает закреплённые ярлыки — используйте Избранное</string>
+    <string name="msg_launch_failed">У приложения нет точки входа для запуска</string>
+    <string name="msg_launch_error">Не удалось запустить %1$s</string>
+    <string name="msg_app_count">приложений: %1$d</string>
+
+    <!-- Ярлыки, генерируемые как APK -->
+    <string name="msg_shortcut_building">Собираю ярлык для %1$s…</string>
+    <string name="msg_shortcut_install_started">Подтвердите установку, чтобы добавить «%1$s» на главный экран</string>
+    <string name="msg_shortcut_installed">«%1$s» добавлено на главный экран</string>
+    <string name="msg_shortcut_install_failed">Установка не удалась: %1$s</string>
+    <string name="msg_shortcut_permission">Разрешите приложению устанавливать пакеты и повторите</string>
+    <string name="msg_shortcut_template_missing">В этой сборке нет шаблона ярлыка — переустановите приложение</string>
+    <string name="msg_shortcut_failed">Не удалось создать ярлык: %1$s</string>
+
+    <!-- О программе -->
+    <string name="about_developer">Разработчик</string>
+    <string name="about_developer_name">В. Д. Кривицкий</string>
+    <string name="about_version">Версия %1$s</string>
+
+    <!-- Поддержка проекта -->
+    <string name="donate_action">Поддержать</string>
+    <string name="donate_title">Поддержать проект</string>
+    <string name="donate_hint">Наведите камеру телефона на код</string>
+    <string name="donate_note">Приложение бесплатное, без рекламы и без сбора данных. Донат идёт на тестовые устройства и время разработки.</string>
+
+    <!-- Поиск -->
+    <string name="search_hint">Поиск приложений</string>
+    <string name="search_empty">Ничего не найдено по запросу «%1$s»</string>
+    <string name="search_empty_hint">Проверьте написание или очистите поиск.</string>
+
+
+    <!-- Управление созданными ярлыками -->
+    <string name="filter_shortcuts">Мои ярлыки</string>
+    <string name="action_delete_shortcut">Удалить ярлык</string>
+    <string name="detail_shortcut_for">Ярлык для %1$s</string>
+    <string name="detail_shortcut_orphan">Целевое приложение больше не установлено</string>
+    <string name="shortcuts_empty">Ярлыков пока нет</string>
+    <string name="shortcuts_empty_hint">Выберите приложение и нажмите «Добавить на главный экран».</string>
+
+
+    <string name="menu_open">Открыть меню</string>
+
+    <!-- Сортировка и уборка -->
+    <string name="sort_name">По алфавиту</string>
+    <string name="sort_recent">Недавно установленные</string>
+    <string name="sort_title">Сортировка</string>
+    <string name="action_remove_orphans">Удалить осиротевшие (%1$d)</string>
+    <string name="msg_orphans_removing">Подтвердите удаление %1$d ярлыков</string>
+</resources>
