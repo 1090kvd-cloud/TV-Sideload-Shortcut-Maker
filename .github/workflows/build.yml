@@ -51,12 +51,16 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 30
 
-      - name: Upload lint report
+      # Both the HTML and the plain-text report: the text one can be pasted
+      # straight into a bug report, the HTML one is easier to read.
+      - name: Upload lint reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lint-report
-          path: app/build/reports/lint-results-debug.html
+          path: |
+            **/build/reports/lint-results-debug.html
+            **/build/intermediates/lint_intermediate_text_report/**/lint-results-debug.txt
           retention-days: 7
 
       # Attaches the APK to a GitHub Release when the build was triggered by a tag.
