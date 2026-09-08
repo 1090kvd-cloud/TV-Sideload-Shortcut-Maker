@@ -146,7 +146,15 @@ private fun PanelContent(
     // Banner rendering happens off the main thread inside the ViewModel; the
     // key list makes it re-run when either the app or the style changes.
     val preview by produceState<Bitmap?>(initialValue = null, app.packageName) {
-        value = runCatching { renderBanner(app) }.getOrNull()
+        // Assigned from a plain local rather than straight from runCatching:
+        // lint cannot see through the lambda on the right-hand side and reports
+        // ProduceStateDoesNotAssignValue, which fails the build.
+        val rendered = try {
+            renderBanner(app)
+        } catch (e: Exception) {
+            null
+        }
+        value = rendered
     }
 
     // A side panel only makes sense when there is room beside the grid; on a

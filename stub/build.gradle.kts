@@ -40,6 +40,15 @@ android {
         }
     }
 
+    lint {
+        // targetSdk 29 is a deliberate technical requirement, not neglect:
+        // below API 30 package-visibility filtering does not apply and v1 JAR
+        // signing stays valid, which is what lets a generated shortcut resolve
+        // and launch its target. The module is never published to Google Play,
+        // so its store policy check does not apply here.
+        disable += "ExpiredTargetSdkVersion"
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
