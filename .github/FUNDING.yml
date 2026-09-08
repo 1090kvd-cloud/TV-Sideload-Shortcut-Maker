@@ -1,0 +1,13 @@
+# Renders a "Sponsor" button at the top of the repository page.
+
+# GitHub Sponsors requires a Stripe payout account, which is currently
+# impractical for Russian recipients — left empty on purpose.
+github:
+
+# Ko-fi and Patreon do not pay out to Russian accounts either.
+ko_fi:
+patreon:
+
+# Boosty accepts Russian cards and pays out to Russian bank accounts.
+custom:
+  - https://boosty.to/tvshortcutmaker/donate
