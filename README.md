@@ -48,11 +48,12 @@
 
 ## 📸 Скриншоты
 
-> Замените заглушки реальными снимками: `adb exec-out screencap -p > shot.png`
+> Макеты интерфейса. Реальные снимки снимаются командой
+> `adb exec-out screencap -p > shot.png`
 
-| Сетка приложений | Панель сведений | Иконка ярлыка |
+| Главный экран | Шторка меню | Иконка ярлыка |
 |---|---|---|
-| ![Сетка](docs/screenshots/screen1.png) | ![Сведения](docs/screenshots/screen2.png) | ![Иконка](docs/screenshots/screen3.png) |
+| ![Главный экран](docs/screenshots/screen1.png) | ![Меню](docs/screenshots/screen2.png) | ![Иконка](docs/screenshots/screen3.png) |
 
 ## 🏗 Архитектура
 

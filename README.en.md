@@ -47,11 +47,11 @@ It also works as a fast, good-looking app drawer on its own.
 
 ## 📸 Screenshots
 
-> Replace these placeholders with real captures (`adb exec-out screencap -p > shot.png`).
+> UI mockups. Real captures: `adb exec-out screencap -p > shot.png`
 
-| App grid | Detail panel | Shortcut icon |
+| Home screen | Navigation drawer | Shortcut icon |
 |---|---|---|
-| ![Grid](docs/screenshots/screen1.png) | ![Detail](docs/screenshots/screen2.png) | ![Icon](docs/screenshots/screen3.png) |
+| ![Home](docs/screenshots/screen1.png) | ![Drawer](docs/screenshots/screen2.png) | ![Icon](docs/screenshots/screen3.png) |
 
 ## 🏗 Architecture
 
