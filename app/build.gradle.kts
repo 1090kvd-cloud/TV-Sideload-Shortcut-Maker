@@ -119,10 +119,15 @@ val copyStubTemplate by tasks.registering(Copy::class) {
 // fill, which Gradle rejects as a configuration error.
 android.sourceSets.getByName("main").assets.srcDir(copyStubTemplate)
 
-// Belt and braces for the task graph AGP builds around lint, whose task names
-// vary between versions and which does not always go through the asset source.
+// Lint is the awkward consumer: it reads the asset directory as a plain path
+// instead of going through the asset source, so the implicit dependency above
+// does not reach it. Its task names also differ in case between phases —
+// `lintAnalyzeDebug`, `lintVitalAnalyzeRelease`,
+// `generateReleaseLintVitalReportModel` — hence the case-insensitive match
+// rather than a hand-written list that goes stale with the next AGP.
 tasks.matching {
-    (it.name.startsWith("merge") && it.name.endsWith("Assets")) || it.name.contains("Lint")
+    (it.name.startsWith("merge") && it.name.endsWith("Assets")) ||
+        it.name.contains("lint", ignoreCase = true)
 }.configureEach { dependsOn(copyStubTemplate) }
 
 dependencies {
