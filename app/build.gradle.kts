@@ -111,11 +111,19 @@ val copyStubTemplate by tasks.registering(Copy::class) {
     rename { "stub-template.apk" }
 }
 
-android.sourceSets.getByName("main").assets.srcDir(stubAssetsDir.map { it.dir("assets") })
+// Registering the TASK (not the folder) as the asset source is what makes the
+// dependency implicit: Gradle resolves a task provider to that task's outputs,
+// so every consumer — asset merging, packaging, lint — inherits the dependency
+// automatically. Pointing at a bare directory instead left lint's release-only
+// `generateReleaseLintVitalReportModel` reading a folder nobody promised to
+// fill, which Gradle rejects as a configuration error.
+android.sourceSets.getByName("main").assets.srcDir(copyStubTemplate)
 
-// Make sure the copy happens before assets are merged, for every variant.
-tasks.matching { it.name.startsWith("merge") && it.name.endsWith("Assets") }
-    .configureEach { dependsOn(copyStubTemplate) }
+// Belt and braces for the task graph AGP builds around lint, whose task names
+// vary between versions and which does not always go through the asset source.
+tasks.matching {
+    (it.name.startsWith("merge") && it.name.endsWith("Assets")) || it.name.contains("Lint")
+}.configureEach { dependsOn(copyStubTemplate) }
 
 dependencies {
     // Signing of generated shortcut APKs
