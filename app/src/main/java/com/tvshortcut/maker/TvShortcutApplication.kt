@@ -1,0 +1,68 @@
+/*
+ * TV Shortcut Maker — home-screen shortcuts for sideloaded Android TV apps.
+ * Copyright (C) 2026 V. D. Krivitskiy
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 3 as published by the
+ * Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+package com.tvshortcut.maker
+
+import android.app.Application
+import com.tvshortcut.maker.data.AppRepository
+import com.tvshortcut.maker.data.BannerFactory
+import com.tvshortcut.maker.data.FavoritesStore
+import com.tvshortcut.maker.data.PackageEventObserver
+import com.tvshortcut.maker.data.ShortcutHelper
+import com.tvshortcut.maker.data.apk.ApkSigningHelper
+import com.tvshortcut.maker.data.apk.ShortcutApkBuilder
+import com.tvshortcut.maker.data.apk.ShortcutApkService
+import com.tvshortcut.maker.data.apk.ShortcutInstaller
+
+/**
+ * Application entry point.
+ *
+ * The project deliberately avoids a DI framework (Hilt/Koin) to keep the sample
+ * copy-paste friendly: a tiny hand-rolled service locator is more than enough
+ * for four collaborators.
+ */
+class TvShortcutApplication : Application() {
+
+    /** Lazily created singletons shared by every ViewModel. */
+    val container: AppContainer by lazy { AppContainer(this) }
+
+    companion object {
+        /** Convenience accessor used from [androidx.lifecycle.ViewModelProvider.Factory]. */
+        lateinit var instance: TvShortcutApplication
+            private set
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+    }
+}
+
+/** Holds the app-scoped collaborators. */
+class AppContainer(application: Application) {
+    val bannerFactory: BannerFactory = BannerFactory(application)
+    val favoritesStore: FavoritesStore = FavoritesStore(application)
+    val packageEvents: PackageEventObserver = PackageEventObserver(application)
+    val appRepository: AppRepository = AppRepository(application, bannerFactory, favoritesStore)
+    val shortcutHelper: ShortcutHelper = ShortcutHelper(application, bannerFactory)
+
+    // Generated-APK pipeline: the path that works on launchers which ignore
+    // pinned shortcuts.
+    private val apkBuilder = ShortcutApkBuilder(application)
+    private val apkSigner = ApkSigningHelper(application)
+    private val apkInstaller = ShortcutInstaller(application)
+    val shortcutApkService: ShortcutApkService =
+        ShortcutApkService(application, apkBuilder, apkSigner, apkInstaller)
+}
