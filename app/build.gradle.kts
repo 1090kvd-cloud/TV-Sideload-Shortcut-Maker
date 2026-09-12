@@ -1,93 +1,40 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose) // Kotlin 2.x Compose compiler plugin
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
-    namespace = "com.tvshortcut.maker"
-    compileSdk = 35
+    namespace = "ru.vzvod.konspekt"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.tvshortcut.maker"
-        // API 23 keeps the app installable on older TV boxes.
-        // Pinned-shortcut APIs (API 26+) are guarded at runtime.
-        minSdk = 23
+        applicationId = "ru.vzvod.konspekt"
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0.0"
-
-        // No instrumentation tests shipped, but keep the runner declared.
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    /**
-     * Release signing comes from the environment, never from a file in the
-     * repository: whoever holds this key can publish an "update" to every
-     * existing install. It lives in GitHub secrets and is decoded on the runner.
-     * Without those variables the build falls back to the debug key, so cloning
-     * and building the project still works for anyone.
-     */
-    val releaseStorePath: String? = System.getenv("KEYSTORE_PATH")
-    val hasReleaseSigning = releaseStorePath != null && file(releaseStorePath).exists()
-
-    signingConfigs {
-        if (hasReleaseSigning) {
-            create("release") {
-                storeFile = file(releaseStorePath!!)
-                storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEY_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
-                enableV1Signing = true
-                enableV2Signing = true
-            }
-        }
+        versionName = "1.0"
     }
 
     buildTypes {
         release {
-            if (hasReleaseSigning) {
-                signingConfig = signingConfigs.getByName("release")
-            }
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        debug {
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Подписываем debug-ключом, чтобы APK из CI можно было сразу поставить на телефон.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-        // apksig relies on java.util.function / java.nio APIs that are missing
-        // below API 24; desugaring back-fills them so minSdk 23 keeps working.
-        isCoreLibraryDesugaringEnabled = true
     }
-
     kotlinOptions {
         jvmTarget = "17"
-        freeCompilerArgs += listOf(
-            // Compose for TV is still partially experimental in 1.0.0 — opt in globally
-            // so we do not have to annotate every single composable.
-            "-opt-in=androidx.tv.material3.ExperimentalTvMaterial3Api",
-            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        )
     }
-
     buildFeatures {
         compose = true
-        buildConfig = true
     }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -95,73 +42,15 @@ android {
     }
 }
 
-/**
- * Bundles the compiled :stub APK into the main app's assets as
- * `stub-template.apk`, so ShortcutApkBuilder can use it as a template at runtime.
- *
- * The debug variant of the stub is used on purpose: it is re-signed with our own
- * bundled key before installation anyway, so its original signature is irrelevant.
- */
-val stubAssetsDir = layout.buildDirectory.dir("generated/stubAssets")
-
-val copyStubTemplate by tasks.registering(Copy::class) {
-    dependsOn(":stub:assembleDebug")
-    from(project(":stub").layout.buildDirectory.file("outputs/apk/debug/stub-debug.apk"))
-    into(stubAssetsDir.map { it.dir("assets") })
-    rename { "stub-template.apk" }
-}
-
-// Registering the TASK (not the folder) as the asset source is what makes the
-// dependency implicit: Gradle resolves a task provider to that task's outputs,
-// so every consumer — asset merging, packaging, lint — inherits the dependency
-// automatically. Pointing at a bare directory instead left lint's release-only
-// `generateReleaseLintVitalReportModel` reading a folder nobody promised to
-// fill, which Gradle rejects as a configuration error.
-android.sourceSets.getByName("main").assets.srcDir(copyStubTemplate)
-
-// Lint is the awkward consumer: it reads the asset directory as a plain path
-// instead of going through the asset source, so the implicit dependency above
-// does not reach it. Its task names also differ in case between phases —
-// `lintAnalyzeDebug`, `lintVitalAnalyzeRelease`,
-// `generateReleaseLintVitalReportModel` — hence the case-insensitive match
-// rather than a hand-written list that goes stale with the next AGP.
-tasks.matching {
-    (it.name.startsWith("merge") && it.name.endsWith("Assets")) ||
-        it.name.contains("lint", ignoreCase = true)
-}.configureEach { dependsOn(copyStubTemplate) }
-
 dependencies {
-    // Signing of generated shortcut APKs
-    implementation(libs.apksig)
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-
-    // Core
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose) // collectAsStateWithLifecycle()
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.kotlinx.coroutines.android)
-
-    // Compose — the BOM aligns every artifact below to one consistent version
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.animation)
-    implementation(libs.androidx.compose.material.icons)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-
-    // Compose for TV
-    implementation(libs.androidx.tv.material)
-    implementation(libs.androidx.tv.foundation)
-
-    // QR code rendering for the donation panel
-    implementation(libs.zxing.core)
-
-    // Colour extraction for generated banners
-    implementation(libs.androidx.palette)
-
-    testImplementation(libs.junit)
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation(platform("androidx.compose:compose-bom:2024.10.01"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }

@@ -11,7 +11,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -20,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TV Sideload Shortcut Maker"
+rootProject.name = "Konspekt"
 include(":app")
-include(":stub")   // template APK for generated shortcuts
