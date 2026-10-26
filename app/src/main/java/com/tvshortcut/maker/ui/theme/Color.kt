@@ -18,29 +18,28 @@ package com.tvshortcut.maker.ui.theme
 import androidx.compose.ui.graphics.Color
 
 /**
- * Palette of the app. Deep blue/violet accents on a near-black background —
- * the combination recommended for OLED TV panels (true blacks, low eye strain
- * in a dark living room).
+ * KVD palette: charcoal surfaces and warm orange accents matching the avatar.
+ * Focus states remain distinct for remote-control navigation.
  */
 object TvColors {
-    val Background = Color(0xFF0B0E14)
-    val Surface = Color(0xFF141922)
-    val SurfaceElevated = Color(0xFF1C2230)
-    val SurfaceFocused = Color(0xFF262E40)
+    val Background = Color(0xFF070709)
+    val Surface = Color(0xFF0D0D10)
+    val SurfaceElevated = Color(0xFF191719)
+    val SurfaceFocused = Color(0xFF2D2115)
 
-    val Primary = Color(0xFF7C6BFF)        // violet accent
-    val PrimaryDim = Color(0xFF4B3FB0)
-    val Secondary = Color(0xFF3D8BFF)      // deep blue accent
-    val OnPrimary = Color(0xFF0B0714)
+    val Primary = Color(0xFFFFA52C)        // KVD orange
+    val PrimaryDim = Color(0xFF713E12)
+    val Secondary = Color(0xFFFFCB70)      // warm highlight
+    val OnPrimary = Color(0xFF1A1005)
 
-    val TextPrimary = Color(0xFFECEEF5)
-    val TextSecondary = Color(0xFF9AA3B8)
-    val TextTertiary = Color(0xFF636C82)
+    val TextPrimary = Color(0xFFF4EEE6)
+    val TextSecondary = Color(0xFFB9ADA0)
+    val TextTertiary = Color(0xFF9A8B7C)
 
-    val Border = Color(0xFF2A3242)
-    val BorderFocused = Color(0xFFB9AEFF)
+    val Border = Color(0xFF3A2D20)
+    val BorderFocused = Color(0xFFFFE0A3)
     val Danger = Color(0xFFFF6B6B)
     val Success = Color(0xFF4ADE80)
 
-    val Scrim = Color(0xE60A0C12)
+    val Scrim = Color(0xE6070709)
 }
