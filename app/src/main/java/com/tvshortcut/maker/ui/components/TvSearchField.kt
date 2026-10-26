@@ -117,7 +117,10 @@ fun TvSearchField(
                 textStyle = MaterialTheme.typography.bodyMedium.copy(color = TvColors.TextPrimary),
                 cursorBrush = SolidColor(TvColors.Primary),
                 interactionSource = interactionSource,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Search,
+                    showKeyboardOnFocus = false
+                ),
                 // Closing the keyboard on "search" hands focus straight back to
                 // the grid, which is what the viewer expects after typing.
                 keyboardActions = KeyboardActions(onSearch = { keyboard?.hide() })
