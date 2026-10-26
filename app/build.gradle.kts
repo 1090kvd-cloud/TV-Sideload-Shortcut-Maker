@@ -14,8 +14,8 @@ android {
         // Pinned-shortcut APIs (API 26+) are guarded at runtime.
         minSdk = 23
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.0.1"
 
         // No instrumentation tests shipped, but keep the runner declared.
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

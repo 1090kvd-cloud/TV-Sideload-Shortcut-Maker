@@ -230,6 +230,8 @@ If it saved you some time, you can support the author:
 Donations go towards test devices (TV boxes from different vendors behave very
 differently) and the time spent chasing bugs.
 
+<img src="app/src/main/res/drawable-nodpi/donate_qr.png" alt="QR code for a voluntary donation" width="180">
+
 ## 🤝 Contributing
 
 PRs welcome. Please keep comments in English, follow the official Kotlin style
@@ -238,9 +240,11 @@ PRs welcome. Please keep comments in English, follow the official Kotlin style
 By submitting a PR you agree that your contribution is licensed under GPL-3.0.
 New files must carry the same license header as the rest of the sources.
 
-## 👤 Author
+## 👤 Developer
 
-**V. D. Krivitskiy** — concept, architecture and development.
+<img src="app/src/main/res/drawable-nodpi/developer_avatar.webp" alt="KVD avatar" width="96">
+
+**KVD** — developer.
 
 Found a bug or have an idea? Open an [issue](../../issues) — that is the best
 way to get in touch.
@@ -249,7 +253,7 @@ way to get in touch.
 
 **GNU General Public License v3.0** — full text in [LICENSE](LICENSE).
 
-© 2026 V. D. Krivitskiy
+© 2026 KVD
 
 In practice:
 
