@@ -78,4 +78,5 @@
     <string name="sort_title">Сортировка</string>
     <string name="action_remove_orphans">Удалить осиротевшие (%1$d)</string>
     <string name="msg_orphans_removing">Подтвердите удаление %1$d ярлыков</string>
+    <string name="about_developer_avatar">Аватар разработчика KVD</string>
 </resources>

@@ -79,4 +79,5 @@
     <string name="sort_title">Sorting</string>
     <string name="action_remove_orphans">Delete dead shortcuts (%1$d)</string>
     <string name="msg_orphans_removing">Confirm removal of %1$d shortcuts</string>
+    <string name="about_developer_avatar">KVD developer avatar</string>
 </resources>

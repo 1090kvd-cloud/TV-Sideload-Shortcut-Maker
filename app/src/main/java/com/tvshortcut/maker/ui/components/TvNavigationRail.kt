@@ -15,6 +15,7 @@
  */
 package com.tvshortcut.maker.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
@@ -32,6 +33,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -50,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -88,7 +91,6 @@ fun TvNavigationRail(
     onDonateClick: () -> Unit,
     currentSort: AppSort,
     onSortChange: (AppSort) -> Unit,
-    developerLine: String,
     modifier: Modifier = Modifier
 ) {
 
@@ -185,13 +187,22 @@ fun TvNavigationRail(
         )
 
         RailLabel {
-            Text(
-                text = developerLine,
-                style = MaterialTheme.typography.labelMedium,
-                color = TvColors.TextTertiary,
-                maxLines = 2,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 8.dp, top = 14.dp)
-            )
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.developer_avatar),
+                    contentDescription = stringResource(R.string.about_developer_avatar),
+                    modifier = Modifier.size(48.dp).clip(CircleShape)
+                )
+                Text(
+                    text = stringResource(R.string.about_developer),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = TvColors.TextSecondary,
+                    modifier = Modifier.padding(start = 12.dp)
+                )
+            }
         }
     }
 }

@@ -389,8 +389,6 @@ private fun NavigationDrawerOverlay(
                     onDonateClick = onDonateClick,
                     currentSort = state.sort,
                     onSortChange = onSortChange,
-                    developerLine = stringResource(R.string.about_developer) + ": " +
-                        stringResource(R.string.about_developer_name),
                     modifier = Modifier.focusRequester(panelFocus)
                 )
             }
