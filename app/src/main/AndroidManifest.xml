@@ -69,6 +69,7 @@
         <!-- Main app drawer. CATEGORY_LEANBACK_LAUNCHER puts it on the TV home screen. -->
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:exported="true"
             android:resizeableActivity="true"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
