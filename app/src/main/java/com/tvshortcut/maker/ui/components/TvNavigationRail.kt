@@ -189,7 +189,12 @@ fun TvNavigationRail(
         RailLabel {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(start = 8.dp, top = 14.dp)
+                modifier = Modifier
+                    .padding(start = 8.dp, top = 14.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(androidx.compose.ui.graphics.Color(0xFF0A0C0D))
+                    .border(1.dp, androidx.compose.ui.graphics.Color(0xFF654526), RoundedCornerShape(16.dp))
+                    .padding(12.dp)
             ) {
                 Image(
                     painter = painterResource(R.drawable.developer_avatar),
@@ -199,7 +204,7 @@ fun TvNavigationRail(
                 Text(
                     text = stringResource(R.string.about_developer),
                     style = MaterialTheme.typography.labelMedium,
-                    color = TvColors.TextSecondary,
+                    color = androidx.compose.ui.graphics.Color(0xFFE2D8C9),
                     modifier = Modifier.padding(start = 12.dp)
                 )
             }
