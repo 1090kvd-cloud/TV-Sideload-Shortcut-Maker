@@ -49,6 +49,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
@@ -91,6 +93,7 @@ fun TvNavigationRail(
     onDonateClick: () -> Unit,
     currentSort: AppSort,
     onSortChange: (AppSort) -> Unit,
+    initialFocusRequester: FocusRequester,
     modifier: Modifier = Modifier
 ) {
 
@@ -148,7 +151,10 @@ fun TvNavigationRail(
                 label = stringResource(filter.titleRes()),
                 count = countFor(filter),
                 selected = filter == currentFilter,
-                onClick = { onFilterChange(filter) }
+                onClick = { onFilterChange(filter) },
+                modifier = if (filter == currentFilter) {
+                    Modifier.focusRequester(initialFocusRequester)
+                } else Modifier
             )
         }
 
@@ -216,7 +222,8 @@ private fun RailItem(
     label: String,
     count: Int?,
     selected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val focused = interactionSource.collectIsFocusedAsStateCompat()
@@ -224,7 +231,7 @@ private fun RailItem(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(46.dp)
             .clip(shape)
