@@ -389,7 +389,7 @@ private fun NavigationDrawerOverlay(
                     onDonateClick = onDonateClick,
                     currentSort = state.sort,
                     onSortChange = onSortChange,
-                    modifier = Modifier.focusRequester(panelFocus)
+                    initialFocusRequester = panelFocus
                 )
             }
         }
