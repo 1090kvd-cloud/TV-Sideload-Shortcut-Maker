@@ -52,7 +52,7 @@
     <!-- Поддержка проекта -->
     <string name="donate_action">Поддержать</string>
     <string name="donate_title">Поддержать проект</string>
-    <string name="donate_hint">Наведите камеру телефона на код</string>
+    <string name="donate_hint">Наведите камеру другого устройства или нажмите «Открыть Boosty» ниже.</string>
     <string name="donate_note">Приложение бесплатное, без рекламы и без сбора данных. Донат идёт на тестовые устройства и время разработки.</string>
 
     <!-- Поиск -->
@@ -79,4 +79,6 @@
     <string name="action_remove_orphans">Удалить осиротевшие (%1$d)</string>
     <string name="msg_orphans_removing">Подтвердите удаление %1$d ярлыков</string>
     <string name="about_developer_avatar">Аватар разработчика KVD</string>
+    <string name="donate_open_boosty">Открыть Boosty</string>
+    <string name="donate_browser_unavailable">Нет приложения для открытия ссылки. Отсканируйте QR-код другим устройством.</string>
 </resources>

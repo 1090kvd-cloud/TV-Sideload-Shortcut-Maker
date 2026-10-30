@@ -16,6 +16,10 @@
 package com.tvshortcut.maker.ui.screens
 
 import android.graphics.Bitmap
+import android.content.Intent
+import android.content.ActivityNotFoundException
+import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -24,18 +28,22 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,6 +57,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -62,8 +71,8 @@ import com.tvshortcut.maker.ui.theme.TvColors
 /**
  * Centred dialog offering the donation link as a QR code.
  *
- * A QR code rather than a link, because nobody types a URL with a TV remote —
- * the viewer points a phone at the screen instead. The code is generated
+ * A QR code for a second device and a direct link for phones or TVs with a browser.
+ * The code is generated
  * locally, so the panel works with no network access and phones home to
  * nothing.
  */
@@ -76,7 +85,10 @@ fun DonatePanel(
     BackHandler(enabled = visible, onBack = onDismiss)
 
     val url = stringResource(R.string.donate_url)
-    val compact = LocalConfiguration.current.screenWidthDp < 720
+    val context = LocalContext.current
+    val unavailable = stringResource(R.string.donate_browser_unavailable)
+    val configuration = LocalConfiguration.current
+    val compact = configuration.screenWidthDp < 720
     val qrSize = if (compact) 180.dp else 260.dp
 
     // Rendering is kept out of the frame that opens the dialog. Same spelling as
@@ -112,8 +124,10 @@ fun DonatePanel(
                 Column(
                     modifier = Modifier
                         .widthIn(max = 460.dp)
+                        .heightIn(max = (configuration.screenHeightDp - 32).coerceAtLeast(160).dp)
                         .clip(RoundedCornerShape(24.dp))
                         .background(TvColors.Surface)
+                        .verticalScroll(rememberScrollState())
                         .padding(horizontal = 32.dp, vertical = 28.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -173,6 +187,20 @@ fun DonatePanel(
 
                     Spacer(Modifier.height(22.dp))
 
+                    TvActionButton(
+                        label = stringResource(R.string.donate_open_boosty),
+                        icon = Icons.Default.OpenInNew,
+                        onClick = {
+                            try {
+                                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                            } catch (_: ActivityNotFoundException) {
+                                Toast.makeText(context, unavailable, Toast.LENGTH_LONG).show()
+                            } catch (_: SecurityException) {
+                                Toast.makeText(context, unavailable, Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    )
+                    Spacer(Modifier.height(10.dp))
                     TvActionButton(
                         label = stringResource(R.string.action_close),
                         icon = Icons.Default.Close,
